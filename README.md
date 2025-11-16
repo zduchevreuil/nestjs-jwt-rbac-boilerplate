@@ -634,4 +634,4 @@ npm run start:dev
 
 ## License
 
-UNLICENSED
+MIT License - see [LICENSE](LICENSE) file for details
