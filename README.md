@@ -13,6 +13,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![NestJS](https://img.shields.io/badge/NestJS-11.0-E0234E?logo=nestjs)](https://nestjs.com/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Postman Collection](https://img.shields.io/badge/Postman-Collection-FF6C37?logo=postman)](https://web.postman.co/workspace/My-Workspace~f38931e2-b991-4b76-8f08-cd3c064519a2/collection/37117103-972a16b7-a0de-42de-b220-e1a872a4ffc1?action=share&source=copy-link&creator=37117103)
 
 </div>
 
