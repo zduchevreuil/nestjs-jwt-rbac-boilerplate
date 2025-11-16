@@ -3,6 +3,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { LoggerModule } from 'nestjs-pino';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './modules/users/users.module';
+import { HealthModule } from './modules/health/health.module';
 import { AppConfigModule } from './config/config.module';
 import { loggerConfig } from './config/logger.config';
 import { CorrelationIdMiddleware } from './common/middleware/correlation-id.middleware';
@@ -28,6 +29,7 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
     AppConfigModule,
     AuthModule,
     UsersModule,
+    HealthModule,
     PrismaModule
   ],
   controllers: [],
