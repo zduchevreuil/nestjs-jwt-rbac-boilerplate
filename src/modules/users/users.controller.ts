@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Patch } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { UserRole } from 'generated/prisma/enums';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UpdateProfileDto } from './dtos/update-profile.dto';
+import { PaginationDto } from 'src/common/dtos/pagination.dto';
 
 
 @Controller('users')
@@ -25,8 +26,9 @@ export class UsersController {
   // admin routes
   @Roles(UserRole.ADMIN)
   @Get('/')
-  async getAllUsers() {
-    return this.usersService.getAllUsers();
+  async getAllUsers(@Query() paginationDto: PaginationDto) {
+    const { page = 1, limit = 10 } = paginationDto;
+    return this.usersService.getAllUsers(page, limit);
   }
 
   @Roles(UserRole.ADMIN)

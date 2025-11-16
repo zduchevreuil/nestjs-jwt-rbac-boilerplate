@@ -7,6 +7,7 @@ import { Public } from 'src/common/decorators/public.decorator';
 import { SignupDto } from './dtos/signup.dto';
 import { LoginDto } from './dtos/login.dto';
 import { Throttle, SkipThrottle } from '@nestjs/throttler';
+import { COOKIE_CONFIG } from 'src/common/constants/cookie.config';
 
 
 @Controller('auth')
@@ -31,19 +32,9 @@ export class AuthController {
     const ipAddress = (req.headers['x-forwarded-for'] as string)?.split(',')[0] || req.ip || 'Unknown IP';
     
     const data = await this.authService.login(loginDto, deviceInfo, ipAddress);
-    res.cookie('accessToken', data.accessToken,{
-      httpOnly: true,
-      sameSite: 'strict',
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 60*60*1000, // 1 hour
-    });
-
-    res.cookie('refreshToken', data.refreshToken, {
-      httpOnly: true,
-      sameSite: 'strict',
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 30*24*60*60*1000, // 30 days
-    });
+    
+    res.cookie(COOKIE_CONFIG.ACCESS_TOKEN.name, data.accessToken, COOKIE_CONFIG.ACCESS_TOKEN.options as any);
+    res.cookie(COOKIE_CONFIG.REFRESH_TOKEN.name, data.refreshToken, COOKIE_CONFIG.REFRESH_TOKEN.options as any);
 
     return {
       user: data.user,
@@ -61,19 +52,8 @@ export class AuthController {
     
     const {accessToken, refreshToken} =await this.authService.refreshToken(userId, rt, deviceInfo, ipAddress);
 
-    res.cookie('accessToken', accessToken,{
-      httpOnly: true,
-      sameSite: 'strict',
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 60*60*1000, // 1 hour
-    });
-
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      sameSite: 'strict',
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 30*24*60*60*1000, // 30 days
-    });
+    res.cookie(COOKIE_CONFIG.ACCESS_TOKEN.name, accessToken, COOKIE_CONFIG.ACCESS_TOKEN.options as any);
+    res.cookie(COOKIE_CONFIG.REFRESH_TOKEN.name, refreshToken, COOKIE_CONFIG.REFRESH_TOKEN.options as any);
 
     return {
       message: 'Tokens refreshed successfully',
@@ -91,17 +71,8 @@ export class AuthController {
     const rt = req.cookies['refreshToken'];
     await this.authService.logout(userId, rt);
 
-    res.clearCookie('accessToken', {
-      httpOnly: true,
-      sameSite: 'strict',
-      secure: process.env.NODE_ENV === 'production',
-    })
-
-    res.clearCookie('refreshToken', {
-      httpOnly: true,
-      sameSite: 'strict',
-      secure: process.env.NODE_ENV === 'production',
-    })
+    res.clearCookie(COOKIE_CONFIG.ACCESS_TOKEN.name, COOKIE_CONFIG.ACCESS_TOKEN.options as any);
+    res.clearCookie(COOKIE_CONFIG.REFRESH_TOKEN.name, COOKIE_CONFIG.REFRESH_TOKEN.options as any);
 
     return {
       message: 'Logged out successfully',

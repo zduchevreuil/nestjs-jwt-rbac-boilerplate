@@ -77,8 +77,9 @@ export class AuthService {
     const hashedRt = await this.hashData(tokens.refreshToken);
 
     // Store refresh token with device info for multi-device support
-    const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + 30); // 30 days
+    const refreshExpiry = this.config.get<string>('JWT_REFRESH_EXPIRY') || '30d';
+    const expiryMs = this.parseExpiryToMilliseconds(refreshExpiry);
+    const expiresAt = new Date(Date.now() + expiryMs);
 
     await this.prisma.refreshToken.create({
       data: {
@@ -150,8 +151,9 @@ export class AuthService {
     const hashedRt = await this.hashData(tokens.refreshToken);
 
     // Update the refresh token (rotation)
-    const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + 30);
+    const refreshExpiry = this.config.get<string>('JWT_REFRESH_EXPIRY') || '30d';
+    const expiryMs = this.parseExpiryToMilliseconds(refreshExpiry);
+    const expiresAt = new Date(Date.now() + expiryMs);
 
     await this.prisma.refreshToken.update({
       where: { id: validTokenId },
@@ -228,14 +230,14 @@ export class AuthService {
        payload,
         {
           secret: this.config.get<string>('JWT_ACCESS_SECRET'),
-          expiresIn: '60m',
+          expiresIn: this.config.get<string>('JWT_ACCESS_EXPIRY') as any,
         },
       ),
       this.jwtService.signAsync(
        payload,
         {
           secret: this.config.get<string>('JWT_REFRESH_SECRET'),
-          expiresIn: '30d',
+          expiresIn: this.config.get<string>('JWT_REFRESH_EXPIRY') as any,
         },
       ),
     ]);
@@ -268,5 +270,22 @@ export class AuthService {
         }
       });
     }
+  }
+
+  private parseExpiryToMilliseconds(expiry: string): number {
+    const match = expiry.match(/^(\d+)([smhd])$/);
+    if (!match) return 30 * 24 * 60 * 60 * 1000; // default 30 days
+    
+    const value = parseInt(match[1], 10);
+    const unit = match[2];
+    
+    const units: { [key: string]: number } = {
+      s: 1000,
+      m: 60 * 1000,
+      h: 60 * 60 * 1000,
+      d: 24 * 60 * 60 * 1000,
+    };
+    
+    return value * units[unit];
   }
 }

@@ -26,14 +26,33 @@ export class UsersService {
 
 
     // admin methods
-    async getAllUsers() {
-        const users = await this.prisma.user.findMany({
-            where: {
-                 isActive: true
-            }
-        })
+    async getAllUsers(page: number = 1, limit: number = 10) {
+        const skip = (page - 1) * limit;
+        
+        const [users, total] = await Promise.all([
+            this.prisma.user.findMany({
+                where: { isActive: true },
+                skip,
+                take: limit,
+                orderBy: { createdAt: 'desc' },
+            }),
+            this.prisma.user.count({ where: { isActive: true } }),
+        ]);
+
         const sanitizedUsers = users.map(user => this.sanitizeUser(user));
-        return sanitizedUsers;
+        const totalPages = Math.ceil(total / limit);
+
+        return {
+            data: sanitizedUsers,
+            meta: {
+                total,
+                page,
+                limit,
+                totalPages,
+                hasNext: page < totalPages,
+                hasPrevious: page > 1,
+            },
+        };
     }
 
     async getUserById(userId: string) {
