@@ -18,19 +18,19 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
       {
         name: 'default',
         ttl: 60000, // 1 minute
-        limit: 10,  // 10 requests per minute
+        limit: 10, // 10 requests per minute
       },
       {
         name: 'strict',
         ttl: 60000, // 1 minute
-        limit: 5,   // 5 requests per minute for auth endpoints
+        limit: 5, // 5 requests per minute for auth endpoints
       },
     ]),
     AppConfigModule,
     AuthModule,
     UsersModule,
     HealthModule,
-    PrismaModule
+    PrismaModule,
   ],
   controllers: [],
   providers: [
@@ -45,7 +45,7 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
     {
       provide: 'APP_GUARD',
       useClass: RolesGuard,
-    }
+    },
   ],
 })
 export class AppModule implements NestModule {

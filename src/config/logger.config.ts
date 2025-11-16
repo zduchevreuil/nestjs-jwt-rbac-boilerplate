@@ -16,7 +16,7 @@ export const loggerConfig: Params = {
             },
           }
         : undefined,
-    
+
     customProps: (req: unknown) => {
       const request = req as { correlationId?: string };
       return {
@@ -25,7 +25,11 @@ export const loggerConfig: Params = {
     },
 
     // Customize log levels for different status codes
-    customLogLevel: (_req: IncomingMessage, res: ServerResponse<IncomingMessage>, err: Error | undefined) => {
+    customLogLevel: (
+      _req: IncomingMessage,
+      res: ServerResponse<IncomingMessage>,
+      err: Error | undefined,
+    ) => {
       if (res.statusCode >= 500 || err) {
         return 'error';
       }
@@ -36,12 +40,19 @@ export const loggerConfig: Params = {
     },
 
     // Customize success message
-    customSuccessMessage: (req: IncomingMessage, res: ServerResponse<IncomingMessage>) => {
+    customSuccessMessage: (
+      req: IncomingMessage,
+      res: ServerResponse<IncomingMessage>,
+    ) => {
       return `${req.method} ${req.url} - ${res.statusCode}`;
     },
 
     // Customize error message
-    customErrorMessage: (req: IncomingMessage, res: ServerResponse<IncomingMessage>, err: Error) => {
+    customErrorMessage: (
+      req: IncomingMessage,
+      res: ServerResponse<IncomingMessage>,
+      err: Error,
+    ) => {
       return `${req.method} ${req.url} - ${res.statusCode} - ${err.message}`;
     },
 
@@ -79,10 +90,7 @@ export const loggerConfig: Params = {
         remoteAddress: req.remoteAddress,
         remotePort: req.remotePort,
       }),
-      res: (res: {
-        statusCode: number;
-        headers: Record<string, unknown>;
-      }) => ({
+      res: (res: { statusCode: number; headers: Record<string, unknown> }) => ({
         statusCode: res.statusCode,
         headers: {
           'content-type': res.headers['content-type'],
@@ -91,10 +99,11 @@ export const loggerConfig: Params = {
     },
 
     level: process.env.LOG_LEVEL || 'info',
-    
+
     // Don't log health check endpoints
     autoLogging: {
-      ignore: (req: IncomingMessage) => req.url === '/health' || req.url === '/api/v1/health',
+      ignore: (req: IncomingMessage) =>
+        req.url === '/health' || req.url === '/api/v1/health',
     },
   },
 };

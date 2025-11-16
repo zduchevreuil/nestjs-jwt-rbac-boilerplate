@@ -1,5 +1,9 @@
 import { Controller, Get } from '@nestjs/common';
-import { HealthCheckService, HealthCheck, PrismaHealthIndicator } from '@nestjs/terminus';
+import {
+  HealthCheckService,
+  HealthCheck,
+  PrismaHealthIndicator,
+} from '@nestjs/terminus';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Public } from 'src/common/decorators/public.decorator';
 
@@ -23,26 +27,22 @@ export class HealthController {
   @Get('ready')
   @Public()
   @HealthCheck()
-  async checkReadiness() {
+  checkReadiness() {
     return this.health.check([
       () => this.prismaHealth.pingCheck('database', this.prisma),
-      async () => {
-        // Additional readiness checks can be added here
-        // e.g., check if migrations are up to date
-        return {
-          application: {
-            status: 'up',
-            uptime: process.uptime(),
-            timestamp: new Date().toISOString(),
-          },
-        };
-      },
+      () => ({
+        application: {
+          status: 'up',
+          uptime: process.uptime(),
+          timestamp: new Date().toISOString(),
+        },
+      }),
     ]);
   }
 
   @Get('live')
   @Public()
-  async checkLiveness() {
+  checkLiveness() {
     // Lightweight check - just return if app is running
     return {
       status: 'ok',

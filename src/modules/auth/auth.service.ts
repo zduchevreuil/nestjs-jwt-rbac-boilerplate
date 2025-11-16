@@ -1,4 +1,10 @@
-import { Injectable, ConflictException, ForbiddenException, UnauthorizedException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  ForbiddenException,
+  UnauthorizedException,
+  NotFoundException,
+} from '@nestjs/common';
 
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
@@ -18,14 +24,14 @@ export class AuthService {
     private logger: Logger,
   ) {}
 
-  async signup(signupDto: SignupDto){
-    const {email, password, fullName} = signupDto;
+  async signup(signupDto: SignupDto) {
+    const { email, password, fullName } = signupDto;
 
     const existingUser = await this.prisma.user.findUnique({
       where: { email },
     });
 
-    if(existingUser){
+    if (existingUser) {
       throw new ConflictException('Email already in use');
     }
 
@@ -54,22 +60,24 @@ export class AuthService {
         role: newUser.role,
       },
       message: 'User registered successfully',
-    }
+    };
   }
 
-  async login(loginDto: LoginDto, deviceInfo?: string, ipAddress?: string){
-    const {email, password} = loginDto;
+  async login(loginDto: LoginDto, deviceInfo?: string, ipAddress?: string) {
+    const { email, password } = loginDto;
 
     const user = await this.prisma.user.findUnique({
       where: { email },
     });
 
     // Prevent timing attacks by always hashing, even if user doesn't exist
-    const passwordHash = user?.passwordHash || await this.hashData('dummy-password-to-prevent-timing-attack');
+    const passwordHash =
+      user?.passwordHash ||
+      (await this.hashData('dummy-password-to-prevent-timing-attack'));
     const passwordMatches = await bcrypt.compare(password, passwordHash);
 
     // Use consistent error message to prevent account enumeration
-    if(!user || !user.isActive || !passwordMatches){
+    if (!user || !user.isActive || !passwordMatches) {
       throw new UnauthorizedException('Invalid email or password');
     }
 
@@ -77,7 +85,8 @@ export class AuthService {
     const hashedRt = await this.hashData(tokens.refreshToken);
 
     // Store refresh token with device info for multi-device support
-    const refreshExpiry = this.config.get<string>('JWT_REFRESH_EXPIRY') || '30d';
+    const refreshExpiry =
+      this.config.get<string>('JWT_REFRESH_EXPIRY') || '30d';
     const expiryMs = this.parseExpiryToMilliseconds(refreshExpiry);
     const expiresAt = new Date(Date.now() + expiryMs);
 
@@ -88,7 +97,7 @@ export class AuthService {
         deviceInfo: deviceInfo || 'Unknown Device',
         ipAddress: ipAddress || 'Unknown IP',
         expiresAt,
-      }
+      },
     });
 
     // Clean up expired tokens for this user
@@ -109,24 +118,29 @@ export class AuthService {
         role: user.role,
       },
       ...tokens,
-    }
+    };
   }
 
-  async refreshToken(userId: string, rt: string, deviceInfo?: string, ipAddress?: string) {
+  async refreshToken(
+    userId: string,
+    rt: string,
+    deviceInfo?: string,
+    ipAddress?: string,
+  ) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
     });
 
-    if(!user || !user.isActive) {
+    if (!user || !user.isActive) {
       throw new ForbiddenException('Invalid refresh token');
     }
 
     // Find matching refresh token in database
     const storedTokens = await this.prisma.refreshToken.findMany({
-      where: { 
+      where: {
         userId: user.id,
-        expiresAt: { gte: new Date() }
-      }
+        expiresAt: { gte: new Date() },
+      },
     });
 
     let isValidToken = false;
@@ -142,7 +156,7 @@ export class AuthService {
       }
     }
 
-    if(!isValidToken || !validTokenId){
+    if (!isValidToken || !validTokenId) {
       throw new UnauthorizedException('Invalid refresh token');
     }
 
@@ -151,7 +165,8 @@ export class AuthService {
     const hashedRt = await this.hashData(tokens.refreshToken);
 
     // Update the refresh token (rotation)
-    const refreshExpiry = this.config.get<string>('JWT_REFRESH_EXPIRY') || '30d';
+    const refreshExpiry =
+      this.config.get<string>('JWT_REFRESH_EXPIRY') || '30d';
     const expiryMs = this.parseExpiryToMilliseconds(refreshExpiry);
     const expiresAt = new Date(Date.now() + expiryMs);
 
@@ -163,7 +178,7 @@ export class AuthService {
         ipAddress: ipAddress || 'Unknown IP',
         expiresAt,
         updatedAt: new Date(),
-      }
+      },
     });
 
     return tokens;
@@ -173,14 +188,14 @@ export class AuthService {
     if (rt) {
       // Find and delete the specific refresh token
       const storedTokens = await this.prisma.refreshToken.findMany({
-        where: { userId }
+        where: { userId },
       });
 
       for (const storedToken of storedTokens) {
         const matches = await bcrypt.compare(rt, storedToken.token);
         if (matches) {
           await this.prisma.refreshToken.delete({
-            where: { id: storedToken.id }
+            where: { id: storedToken.id },
           });
           break;
         }
@@ -188,7 +203,7 @@ export class AuthService {
     } else {
       // Logout from all devices
       await this.prisma.refreshToken.deleteMany({
-        where: { userId }
+        where: { userId },
       });
     }
 
@@ -202,7 +217,7 @@ export class AuthService {
       where: { id: userId },
     });
 
-    if(!user) {
+    if (!user) {
       throw new NotFoundException('User not found');
     }
 
@@ -211,8 +226,8 @@ export class AuthService {
       email: user.email,
       fullName: user.fullName,
       role: user.role,
-    }
-    
+    };
+
     return safeUser;
   }
 
@@ -223,27 +238,28 @@ export class AuthService {
     return bcrypt.hash(data, salt);
   }
 
-  async generateTokens(user: User): Promise<{ accessToken: string; refreshToken: string }> {
+  async generateTokens(
+    user: User,
+  ): Promise<{ accessToken: string; refreshToken: string }> {
     const payload = { sub: user.id, role: user.role, email: user.email };
-       const [accessToken, refreshToken] = await Promise.all([
-      this.jwtService.signAsync(
-       payload,
-        {
-          secret: this.config.get<string>('JWT_ACCESS_SECRET'),
-          expiresIn: this.config.get<string>('JWT_ACCESS_EXPIRY') as any,
-        },
-      ),
-      this.jwtService.signAsync(
-       payload,
-        {
-          secret: this.config.get<string>('JWT_REFRESH_SECRET'),
-          expiresIn: this.config.get<string>('JWT_REFRESH_EXPIRY') as any,
-        },
-      ),
+    const accessExpiry = this.config.get<string>('JWT_ACCESS_EXPIRY') || '15m';
+    const refreshExpiry = this.config.get<string>('JWT_REFRESH_EXPIRY') || '7d';
+
+    const [accessToken, refreshToken] = await Promise.all([
+      // @ts-expect-error - JWT library type definition issue with expiresIn accepting string
+      this.jwtService.signAsync(payload, {
+        secret: this.config.get<string>('JWT_ACCESS_SECRET'),
+        expiresIn: accessExpiry,
+      }),
+      // @ts-expect-error - JWT library type definition issue with expiresIn accepting string
+      this.jwtService.signAsync(payload, {
+        secret: this.config.get<string>('JWT_REFRESH_SECRET'),
+        expiresIn: refreshExpiry,
+      }),
     ]);
     return {
       accessToken,
-      refreshToken
+      refreshToken,
     };
   }
 
@@ -252,8 +268,8 @@ export class AuthService {
     await this.prisma.refreshToken.deleteMany({
       where: {
         userId,
-        expiresAt: { lt: new Date() }
-      }
+        expiresAt: { lt: new Date() },
+      },
     });
 
     // Optional: Limit to 5 most recent tokens per user
@@ -266,8 +282,8 @@ export class AuthService {
     if (tokens.length > 0) {
       await this.prisma.refreshToken.deleteMany({
         where: {
-          id: { in: tokens.map(t => t.id) }
-        }
+          id: { in: tokens.map((t) => t.id) },
+        },
       });
     }
   }
@@ -275,17 +291,17 @@ export class AuthService {
   private parseExpiryToMilliseconds(expiry: string): number {
     const match = expiry.match(/^(\d+)([smhd])$/);
     if (!match) return 30 * 24 * 60 * 60 * 1000; // default 30 days
-    
+
     const value = parseInt(match[1], 10);
     const unit = match[2];
-    
+
     const units: { [key: string]: number } = {
       s: 1000,
       m: 60 * 1000,
       h: 60 * 60 * 1000,
       d: 24 * 60 * 60 * 1000,
     };
-    
+
     return value * units[unit];
   }
 }

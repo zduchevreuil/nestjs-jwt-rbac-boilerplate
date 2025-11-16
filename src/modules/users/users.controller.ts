@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Patch, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Query,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { Roles } from 'src/common/decorators/roles.decorator';
@@ -6,7 +14,6 @@ import { UserRole } from 'generated/prisma/enums';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UpdateProfileDto } from './dtos/update-profile.dto';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
-
 
 @Controller('users')
 export class UsersController {
@@ -19,7 +26,10 @@ export class UsersController {
   }
 
   @Patch('/profile')
-  async updateProfile(@GetUser('sub') userId: string, @Body() updateProfileDto: UpdateProfileDto) {
+  async updateProfile(
+    @GetUser('sub') userId: string,
+    @Body() updateProfileDto: UpdateProfileDto,
+  ) {
     return this.usersService.updateProfile(userId, updateProfileDto);
   }
 
@@ -33,16 +43,19 @@ export class UsersController {
 
   @Roles(UserRole.ADMIN)
   @Get('/:id')
-  async getUserById(@Param('id') id: string) { 
+  async getUserById(@Param('id') id: string) {
     return this.usersService.getUserById(id);
   }
 
   @Roles(UserRole.ADMIN)
   @Patch('/:id')
-  async updateUserById(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  async updateUserById(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
     return this.usersService.updateUserById(id, updateUserDto);
   }
-  
+
   //this soft deletes a user by setting isActive to false
   @Roles(UserRole.ADMIN)
   @Delete('/:id')
