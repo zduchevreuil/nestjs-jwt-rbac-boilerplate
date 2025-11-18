@@ -20,7 +20,7 @@
 
 ---
 
-## 🚀 **Quick Start with CLI**
+## **Quick Start with CLI**
 
 ```bash
 npx create-nestjs-auth@latest
@@ -41,43 +41,43 @@ Interactive scaffolding tool that sets up this entire boilerplate in a few steps
 
 | Feature | This Boilerplate | Passport JWT | NestJS Auth Samples | Custom JWT | Auth0/Clerk |
 |---------|------------------|--------------|---------------------|------------|-------------|
-| **Setup Time** | ⚡ 3 minutes | 2-4 hours | 4-6 hours | 40+ hours | 1-2 hours |
-| **Refresh Token Rotation** | ✅ Auto-rotation | ❌ Manual | ❌ Manual | ❌ Manual | ✅ Built-in |
-| **Multi-Device Sessions** | ✅ 5 devices/user | ❌ None | ❌ None | ❌ Manual | ✅ Built-in |
-| **HttpOnly Cookie Auth** | ✅ Zero XSS risk | ⚠️ Manual setup | ⚠️ Manual setup | ❌ Manual | ✅ Built-in |
-| **RBAC Guards** | ✅ `@Roles()` decorator | ⚠️ Manual guards | ⚠️ Basic example | ❌ DIY | ✅ Built-in |
-| **Rate Limiting** | ✅ Configured | ❌ Manual | ❌ None | ❌ Manual | ✅ Built-in |
-| **Structured Logging** | ✅ Pino + PII redaction | ❌ Console | ❌ None | ❌ Manual | ✅ Built-in |
-| **Database Integration** | ✅ Prisma + PostgreSQL | ⚠️ Your choice | ⚠️ TypeORM example | ❌ DIY | ☁️ Managed |
-| **Token Invalidation** | ✅ DB-backed | ❌ Stateless only | ❌ None | ❌ Manual | ✅ Built-in |
-| **Brute-Force Protection** | ✅ 5 attempts/min | ❌ Manual | ❌ None | ❌ Manual | ✅ Built-in |
-| **Health Checks** | ✅ K8s-ready probes | ❌ Manual | ❌ None | ❌ Manual | ☁️ N/A |
-| **Password Validation** | ✅ Regex + bcrypt 12 | ⚠️ Basic | ❌ None | ❌ Manual | ✅ Built-in |
-| **E2E Tests** | ✅ Included | ❌ Manual | ❌ None | ❌ Manual | ⚠️ API tests |
-| **Self-Hosted** | ✅ Free | ✅ Free | ✅ Free | ✅ Free | 💰 $25/mo+ |
-| **No Vendor Lock-in** | ✅ Full control | ✅ Full control | ✅ Full control | ✅ Full control | ❌ Locked |
-| **Production-Ready** | ✅ Day 1 | ⚠️ Needs work | ❌ Example only | ❌ Needs testing | ✅ Enterprise |
+| **Setup Time** | 3 minutes | 2-4 hours | 4-6 hours | 40+ hours | 1-2 hours |
+| **Refresh Token Rotation** | Yes - Auto-rotation | No - Manual | No - Manual | No - Manual | Yes - Built-in |
+| **Multi-Device Sessions** | Yes - 5 devices/user | No | No | No - Manual | Yes - Built-in |
+| **HttpOnly Cookie Auth** | Yes - Zero XSS risk | Manual setup | Manual setup | No - Manual | Yes - Built-in |
+| **RBAC Guards** | Yes - `@Roles()` decorator | Manual guards | Basic example | No - DIY | Yes - Built-in |
+| **Rate Limiting** | Yes - Configured | No - Manual | No | No - Manual | Yes - Built-in |
+| **Structured Logging** | Yes - Pino + PII redaction | No - Console | No | No - Manual | Yes - Built-in |
+| **Database Integration** | Yes - Prisma + PostgreSQL | Your choice | TypeORM example | No - DIY | Managed |
+| **Token Invalidation** | Yes - DB-backed | No - Stateless only | No | No - Manual | Yes - Built-in |
+| **Brute-Force Protection** | Yes - 5 attempts/min | No - Manual | No | No - Manual | Yes - Built-in |
+| **Health Checks** | Yes - K8s-ready probes | No - Manual | No | No - Manual | N/A |
+| **Password Validation** | Yes - Regex + bcrypt 12 | Basic | No | No - Manual | Yes - Built-in |
+| **E2E Tests** | Yes - Included | No - Manual | No | No - Manual | API tests |
+| **Self-Hosted** | Yes - Free | Yes - Free | Yes - Free | Yes - Free | $25/mo+ |
+| **No Vendor Lock-in** | Yes - Full control | Yes - Full control | Yes - Full control | Yes - Full control | No - Locked |
+| **Production-Ready** | Yes - Day 1 | Needs work | No - Example only | No - Needs testing | Yes - Enterprise |
 
 ### The Real Cost of Alternatives
 
 | Solution | Setup | Security Hardening | Testing | Maintenance | **Total** |
 |----------|-------|-------------------|---------|-------------|-----------|
-| **This Boilerplate** | 3 min | ✅ Done | ✅ Done | Minimal | **3 min** |
+| **This Boilerplate** | 3 min | Done | Done | Minimal | **3 min** |
 | **Passport JWT** | 2h | 8h (refresh, cookies) | 4h | Medium | **14h** |
 | **Custom JWT** | 6h | 20h (all features) | 10h | High | **36h+** |
-| **Auth0/Clerk** | 1h | ✅ Done | 2h | Vendor dependency | **3h + $$$** |
+| **Auth0/Clerk** | 1h | Done | 2h | Vendor dependency | **3h + $$$** |
 
 **Verdict**: Use this if you need production-grade auth without the 40-hour investment or monthly SaaS fees.
 
 ## Core Features
 
-- ✅ **Token rotation**: Refresh tokens auto-rotate on each use—stolen tokens die immediately
-- ✅ **Zero XSS risk**: HttpOnly cookies only—no localStorage, no client-side token access
-- ✅ **RBAC in 2 lines**: Add `@Roles(UserRole.ADMIN)` to any endpoint—done
-- ✅ **Multi-device sessions**: Track 5 devices per user with automatic cleanup
-- ✅ **Brute-force protection**: Rate limiting: 5 auth attempts/minute, 10 requests/minute globally
-- ✅ **PII-safe logs**: Pino structured logging—passwords/tokens auto-redacted
-- ✅ **Bcrypt 12 rounds**: Industry-standard password hashing (2025 security baseline)
+- **Token rotation**: Refresh tokens auto-rotate on each use—stolen tokens die immediately
+- **Zero XSS risk**: HttpOnly cookies only—no localStorage, no client-side token access
+- **RBAC in 2 lines**: Add `@Roles(UserRole.ADMIN)` to any endpoint—done
+- **Multi-device sessions**: Track 5 devices per user with automatic cleanup
+- **Brute-force protection**: Rate limiting: 5 auth attempts/minute, 10 requests/minute globally
+- **PII-safe logs**: Pino structured logging—passwords/tokens auto-redacted
+- **Bcrypt 12 rounds**: Industry-standard password hashing (2025 security baseline)
 
 **Tech Stack**: NestJS 11.0, Prisma 6.19, PostgreSQL, Pino, Zod validation
 
@@ -587,23 +587,23 @@ PII auto-redacted: passwords, tokens, cookies. Change via `LOG_LEVEL` env.
 
 ## Troubleshooting: Real Fixes
 
-### ❌ JWT verification fails
+### JWT verification fails
 **Symptom**: 401 on `/auth/me` after login  
 **Fix**: `rm -rf node_modules && npm install && npm run prisma:generate`
 
-### ❌ Database connection error
+### Database connection error
 **Symptom**: "Can't reach database server"  
 **Fix**: `pg_isready -h localhost -p 5432` then `npm run prisma:migrate`
 
-### ❌ Token refresh fails
+### Token refresh fails
 **Symptom**: 401 on `/auth/refresh`  
 **Fix**: Clear cookies, login again: `curl -X POST ... -c cookies.txt`
 
-### ❌ Port 8080 in use
+### Port 8080 in use
 **Symptom**: EADDRINUSE  
 **Fix**: `lsof -ti:8080 | xargs kill -9 && npm run start:dev`
 
-### ❌ CORS errors
+### CORS errors
 **Symptom**: Browser shows `Access-Control-Allow-Origin` error  
 **Fix**: Add your frontend URL to `CORS_ORIGIN` in `.env`, restart server
 
@@ -619,7 +619,7 @@ MIT - see [LICENSE](LICENSE) file.
 
 <div align="center">
 
-**Built this? Please ⭐ star the repo so others find it.**
+**Built this? Please star the repo so others find it.**
 
 Need help? [Open an issue](https://github.com/masabinhok/nestjs-jwt-rbac-boilerplate/issues) (response < 24h)
 
